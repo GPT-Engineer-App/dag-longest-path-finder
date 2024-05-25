@@ -1,0 +1,48 @@
+Input: DAG G = (V, E)
+Output: Il cammino con il maggior numero di archi
+
+1. function findLongestPath(G):
+2.     topoOrder = topologicalSort(G)
+3.     dist = array of length |V| initialized to -∞
+4.     parent = array of length |V| initialized to -1
+5.     
+6.     for each vertex u in topoOrder:
+7.         if dist[u] == -∞:
+8.             dist[u] = 0
+9.         for each edge (u, v) in E:
+10.            if dist[v] < dist[u] + 1:
+11.                dist[v] = dist[u] + 1
+12.                parent[v] = u
+13.    
+14.    maxDist = -∞
+15.    endVertex = -1
+16.    for each vertex v in V:
+17.        if dist[v] > maxDist:
+18.            maxDist = dist[v]
+19.            endVertex = v
+20.    
+21.    path = []
+22.    while endVertex != -1:
+23.        path.append(endVertex)
+24.        endVertex = parent[endVertex]
+25.    
+26.    path.reverse()
+27.    return path
+
+28. function topologicalSort(G):
+29.     visited = set()
+30.     stack = []
+31.     
+32.     for each vertex v in V:
+33.         if v not in visited:
+34.             topologicalSortUtil(v, visited, stack)
+35.     
+36.     stack.reverse()
+37.     return stack
+
+38. function topologicalSortUtil(v, visited, stack):
+39.     visited.add(v)
+40.     for each neighbor u of v:
+41.         if u not in visited:
+42.             topologicalSortUtil(u, visited, stack)
+43.     stack.append(v)
